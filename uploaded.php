@@ -24,7 +24,7 @@ if (!is_dir($upload_directory)) {
         <div class="brand">
             <i class="fa-solid fa-cloud-arrow-up has-text-warning"></i>
             <span>IPT File Uploader</span>
-            <span class="brand-badge">DISPLAY</span>
+            <span class="brand-badge">AUDIO PLAYER</span>
         </div>
         <div>
             <a href="index.php" style="color: var(--color-yellow-main); font-weight: 700;">
@@ -62,6 +62,30 @@ if (!is_dir($upload_directory)) {
                     <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['text_file']['name'])); ?></h3>
                 </div>
                 <textarea class="textarea neo-input" rows="8" readonly style="font-family: monospace; height: auto !important; color: #0f172a !important;"><?php echo htmlspecialchars($text_content); ?></textarea>
+            </div>
+            <?php
+        }
+    }
+    ?>
+
+    <!-- Audio File Display (audio-file-upload branch) -->
+    <?php
+    if (isset($_FILES['audio_file']) && $_FILES['audio_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded_audio_file = $upload_directory . basename($_FILES['audio_file']['name']);
+        if (move_uploaded_file($_FILES['audio_file']['tmp_name'], $uploaded_audio_file)) {
+            $audio_url = 'uploads/' . rawurlencode(basename($_FILES['audio_file']['name']));
+            ?>
+            <div class="neo-card mb-5">
+                <div class="mb-3">
+                    <span class="neo-badge"><i class="fa-solid fa-file-audio mr-1"></i>Audio Track</span>
+                    <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['audio_file']['name'])); ?></h3>
+                </div>
+                <div class="audio-container p-4" style="border: 2.5px solid var(--color-dark); border-radius: 12px; background: var(--color-yellow-light); box-shadow: 3px 3px 0px var(--color-dark);">
+                    <audio controls style="width: 100%;">
+                        <source src="<?php echo $audio_url; ?>" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
             </div>
             <?php
         }
