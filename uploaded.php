@@ -24,7 +24,7 @@ if (!is_dir($upload_directory)) {
         <div class="brand">
             <i class="fa-solid fa-cloud-arrow-up has-text-warning"></i>
             <span>IPT File Uploader</span>
-            <span class="brand-badge">DISPLAY</span>
+            <span class="brand-badge">IMAGE VIEWER</span>
         </div>
         <div>
             <a href="index.php" style="color: var(--color-yellow-main); font-weight: 700;">
@@ -62,6 +62,27 @@ if (!is_dir($upload_directory)) {
                     <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['text_file']['name'])); ?></h3>
                 </div>
                 <textarea class="textarea neo-input" rows="8" readonly style="font-family: monospace; height: auto !important; color: #0f172a !important;"><?php echo htmlspecialchars($text_content); ?></textarea>
+            </div>
+            <?php
+        }
+    }
+    ?>
+
+    <!-- Image File Display (image-file-upload branch) -->
+    <?php
+    if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded_image_file = $upload_directory . basename($_FILES['image_file']['name']);
+        if (move_uploaded_file($_FILES['image_file']['tmp_name'], $uploaded_image_file)) {
+            $image_url = 'uploads/' . rawurlencode(basename($_FILES['image_file']['name']));
+            ?>
+            <div class="neo-card mb-5">
+                <div class="mb-3">
+                    <span class="neo-badge"><i class="fa-solid fa-file-image mr-1"></i>Uploaded Image</span>
+                    <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['image_file']['name'])); ?></h3>
+                </div>
+                <div class="has-text-centered p-4" style="border: 2.5px solid var(--color-dark); border-radius: 12px; background: var(--color-white); box-shadow: 3px 3px 0px var(--color-dark);">
+                    <img src="<?php echo $image_url; ?>" alt="Uploaded Image" style="max-height: 500px; width: auto; border-radius: 8px; object-fit: contain;" />
+                </div>
             </div>
             <?php
         }
