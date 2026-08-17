@@ -19,7 +19,7 @@
         <div class="brand">
             <i class="fa-solid fa-cloud-arrow-up has-text-warning"></i>
             <span>IPT File Uploader</span>
-            <span class="brand-badge">LAB 3B</span>
+            <span class="brand-badge">VIDEO BRANCH</span>
         </div>
         <div class="is-hidden-mobile">
             <span class="has-text-grey-light">PHP & Git Branching Activity</span>
@@ -56,6 +56,14 @@
                 <label class="label"><i class="fa-solid fa-file-lines mr-2"></i>Text File (.txt)</label>
                 <div class="control">
                     <input class="input neo-input" type="file" name="text_file" accept=".txt" />
+                </div>
+            </div>
+
+            <!-- Video File Input (video-file-upload branch) -->
+            <div class="field mb-4">
+                <label class="label"><i class="fa-solid fa-file-video mr-2"></i>Video File (.mp4)</label>
+                <div class="control">
+                    <input class="input neo-input" type="file" name="video_file" accept=".mp4" />
                 </div>
             </div>
 

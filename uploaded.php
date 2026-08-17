@@ -24,7 +24,7 @@ if (!is_dir($upload_directory)) {
         <div class="brand">
             <i class="fa-solid fa-cloud-arrow-up has-text-warning"></i>
             <span>IPT File Uploader</span>
-            <span class="brand-badge">DISPLAY</span>
+            <span class="brand-badge">VIDEO PLAYER</span>
         </div>
         <div>
             <a href="index.php" style="color: var(--color-yellow-main); font-weight: 700;">
@@ -62,6 +62,30 @@ if (!is_dir($upload_directory)) {
                     <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['text_file']['name'])); ?></h3>
                 </div>
                 <textarea class="textarea neo-input" rows="8" readonly style="font-family: monospace; height: auto !important; color: #0f172a !important;"><?php echo htmlspecialchars($text_content); ?></textarea>
+            </div>
+            <?php
+        }
+    }
+    ?>
+
+    <!-- Video File Display (video-file-upload branch) -->
+    <?php
+    if (isset($_FILES['video_file']) && $_FILES['video_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded_video_file = $upload_directory . basename($_FILES['video_file']['name']);
+        if (move_uploaded_file($_FILES['video_file']['tmp_name'], $uploaded_video_file)) {
+            $video_url = 'uploads/' . rawurlencode(basename($_FILES['video_file']['name']));
+            ?>
+            <div class="neo-card mb-5">
+                <div class="mb-3">
+                    <span class="neo-badge"><i class="fa-solid fa-file-video mr-1"></i>Video Player</span>
+                    <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['video_file']['name'])); ?></h3>
+                </div>
+                <div class="video-container p-3" style="border: 2.5px solid var(--color-dark); border-radius: 12px; background: var(--color-dark); box-shadow: 3px 3px 0px var(--color-dark);">
+                    <video controls style="width: 100%; border-radius: 8px; max-height: 500px;">
+                        <source src="<?php echo $video_url; ?>" type="video/mp4">
+                        Your browser does not support the video element.
+                    </video>
+                </div>
             </div>
             <?php
         }
