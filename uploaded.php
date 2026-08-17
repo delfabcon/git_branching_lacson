@@ -1,0 +1,80 @@
+<?php
+$upload_directory = __DIR__ . '/uploads/';
+if (!is_dir($upload_directory)) {
+    mkdir($upload_directory, 0777, true);
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IPT File Uploader - Display</title>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <!-- Custom Neo-Brutalist Theme -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav class="top-navbar">
+    <div class="container is-flex is-justify-content-space-between is-align-items-center">
+        <div class="brand">
+            <i class="fa-solid fa-cloud-arrow-up has-text-warning"></i>
+            <span>IPT File Uploader</span>
+            <span class="brand-badge">DISPLAY</span>
+        </div>
+        <div>
+            <a href="index.php" style="color: var(--color-yellow-main); font-weight: 700;">
+                <i class="fa-solid fa-arrow-left mr-1"></i>Back to Upload Form
+            </a>
+        </div>
+    </div>
+</nav>
+
+<header class="blue-hero">
+    <div class="container">
+        <h1 class="title">Uploaded Files Viewer</h1>
+        <p class="subtitle mt-2">Displaying your uploaded media files.</p>
+    </div>
+</header>
+
+<div class="wave-divider">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+    </svg>
+</div>
+
+<main class="container px-4 my-5" style="max-width: 860px;">
+
+    <!-- Text File Display -->
+    <?php
+    if (isset($_FILES['text_file']) && $_FILES['text_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded_text_file = $upload_directory . basename($_FILES['text_file']['name']);
+        if (move_uploaded_file($_FILES['text_file']['tmp_name'], $uploaded_text_file)) {
+            $text_content = file_get_contents($uploaded_text_file);
+            ?>
+            <div class="neo-card mb-5">
+                <div class="mb-3">
+                    <span class="neo-badge"><i class="fa-solid fa-file-lines mr-1"></i>Text Document</span>
+                    <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['text_file']['name'])); ?></h3>
+                </div>
+                <textarea class="textarea neo-input" rows="8" readonly style="font-family: monospace; height: auto !important; color: #0f172a !important;"><?php echo htmlspecialchars($text_content); ?></textarea>
+            </div>
+            <?php
+        }
+    }
+    ?>
+
+    <div class="has-text-centered mt-5">
+        <a href="index.php" class="button neo-btn" style="max-width: 320px; display: inline-flex !important;">
+            <i class="fa-solid fa-arrow-left mr-2"></i>Upload Another File
+        </a>
+    </div>
+
+</main>
+
+</body>
+</html>
