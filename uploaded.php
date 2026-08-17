@@ -24,7 +24,7 @@ if (!is_dir($upload_directory)) {
         <div class="brand">
             <i class="fa-solid fa-cloud-arrow-up has-text-warning"></i>
             <span>IPT File Uploader</span>
-            <span class="brand-badge">PDF VIEWER</span>
+            <span class="brand-badge">MEDIA GALLERY</span>
         </div>
         <div>
             <a href="index.php" style="color: var(--color-yellow-main); font-weight: 700;">
@@ -49,7 +49,7 @@ if (!is_dir($upload_directory)) {
 
 <main class="container px-4 my-5" style="max-width: 860px;">
 
-    <!-- Text File Display -->
+    <!-- 1. Text File Display -->
     <?php
     if (isset($_FILES['text_file']) && $_FILES['text_file']['error'] === UPLOAD_ERR_OK) {
         $uploaded_text_file = $upload_directory . basename($_FILES['text_file']['name']);
@@ -68,7 +68,7 @@ if (!is_dir($upload_directory)) {
     }
     ?>
 
-    <!-- PDF File Display (pdf-file-upload branch) -->
+    <!-- 2. PDF File Display (pdf-file-upload branch) -->
     <?php
     if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
         $uploaded_pdf_file = $upload_directory . basename($_FILES['pdf_file']['name']);
@@ -82,6 +82,75 @@ if (!is_dir($upload_directory)) {
                 </div>
                 <div class="pdf-container" style="border: 2.5px solid var(--color-dark); border-radius: 12px; overflow: hidden; box-shadow: 3px 3px 0px var(--color-dark);">
                     <iframe src="<?php echo $pdf_url; ?>" width="100%" height="550px" style="border: none;"></iframe>
+                </div>
+            </div>
+            <?php
+        }
+    }
+    ?>
+
+    <!-- 3. Audio File Display (audio-file-upload branch) -->
+    <?php
+    if (isset($_FILES['audio_file']) && $_FILES['audio_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded_audio_file = $upload_directory . basename($_FILES['audio_file']['name']);
+        if (move_uploaded_file($_FILES['audio_file']['tmp_name'], $uploaded_audio_file)) {
+            $audio_url = 'uploads/' . rawurlencode(basename($_FILES['audio_file']['name']));
+            ?>
+            <div class="neo-card mb-5">
+                <div class="mb-3">
+                    <span class="neo-badge"><i class="fa-solid fa-file-audio mr-1"></i>Audio Track</span>
+                    <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['audio_file']['name'])); ?></h3>
+                </div>
+                <div class="audio-container p-4" style="border: 2.5px solid var(--color-dark); border-radius: 12px; background: var(--color-yellow-light); box-shadow: 3px 3px 0px var(--color-dark);">
+                    <audio controls style="width: 100%;">
+                        <source src="<?php echo $audio_url; ?>" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+            <?php
+        }
+    }
+    ?>
+
+    <!-- 4. Image File Display (image-file-upload branch) -->
+    <?php
+    if (isset($_FILES['image_file']) && $_FILES['image_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded_image_file = $upload_directory . basename($_FILES['image_file']['name']);
+        if (move_uploaded_file($_FILES['image_file']['tmp_name'], $uploaded_image_file)) {
+            $image_url = 'uploads/' . rawurlencode(basename($_FILES['image_file']['name']));
+            ?>
+            <div class="neo-card mb-5">
+                <div class="mb-3">
+                    <span class="neo-badge"><i class="fa-solid fa-file-image mr-1"></i>Uploaded Image</span>
+                    <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['image_file']['name'])); ?></h3>
+                </div>
+                <div class="has-text-centered p-4" style="border: 2.5px solid var(--color-dark); border-radius: 12px; background: var(--color-white); box-shadow: 3px 3px 0px var(--color-dark);">
+                    <img src="<?php echo $image_url; ?>" alt="Uploaded Image" style="max-height: 500px; width: auto; border-radius: 8px; object-fit: contain;" />
+                </div>
+            </div>
+            <?php
+        }
+    }
+    ?>
+
+    <!-- 5. Video File Display (video-file-upload branch) -->
+    <?php
+    if (isset($_FILES['video_file']) && $_FILES['video_file']['error'] === UPLOAD_ERR_OK) {
+        $uploaded_video_file = $upload_directory . basename($_FILES['video_file']['name']);
+        if (move_uploaded_file($_FILES['video_file']['tmp_name'], $uploaded_video_file)) {
+            $video_url = 'uploads/' . rawurlencode(basename($_FILES['video_file']['name']));
+            ?>
+            <div class="neo-card mb-5">
+                <div class="mb-3">
+                    <span class="neo-badge"><i class="fa-solid fa-file-video mr-1"></i>Video Player</span>
+                    <h3 class="title is-5 mt-2"><?php echo htmlspecialchars(basename($_FILES['video_file']['name'])); ?></h3>
+                </div>
+                <div class="video-container p-3" style="border: 2.5px solid var(--color-dark); border-radius: 12px; background: var(--color-dark); box-shadow: 3px 3px 0px var(--color-dark);">
+                    <video controls style="width: 100%; border-radius: 8px; max-height: 500px;">
+                        <source src="<?php echo $video_url; ?>" type="video/mp4">
+                        Your browser does not support the video element.
+                    </video>
                 </div>
             </div>
             <?php
